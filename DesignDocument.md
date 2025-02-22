@@ -12,13 +12,13 @@ Place your class diagrams below. Make sure you check the file in the browser on 
 
 Provide a class diagram for the provided code as you read through it.  For the classes you are adding, you will create them as a separate diagram, so for now, you can just point towards the interfaces for the provided code diagram.
 
-
+![provided class diagram](provided.png)
 
 ### Your Plans/Design
 
 Create a class diagram for the classes you plan to create. This is your initial design, and it is okay if it changes. Your starting points are the interfaces. 
 
-
+![provided class diagram](plan.png)
 
 
 
@@ -36,8 +36,14 @@ Write a test (in english) that you can picture for the class diagram you have cr
 
 You should feel free to number your brainstorm. 
 
-1. Test 1..
-2. Test 2..
+1. Test that the `GameList` class properly returns `List<String>` from `getGameNames()`
+2. Test that the `GameList` class properly returns `void` from `clear()`
+3. Test that the `GameList` class properly returns `int` from `count()`
+4. Test that the `GameList` class properly returns `void` from `saveGame()`
+5. Test that the `GameList` class properly returns `void` from `addToList()`
+6. Test that the `GameList` class properly returns `void` from `removeFromList()`
+7. Test that the `Planner` class properly returns `Stream<BoardGame>` from `filter()`
+8. Test that the `Planner` class properly returns `void` from `reset()`
 
 
 
