@@ -7,9 +7,11 @@ import java.util.stream.Stream;
 
 public class Planner implements IPlanner {
 
+    private Set<BoardGame> games;
+
     public Planner(Set<BoardGame> games) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented constructor 'Planner'");
+//        throw new UnsupportedOperationException("Unimplemented constructor 'Planner'");
     }
 
     @Override
