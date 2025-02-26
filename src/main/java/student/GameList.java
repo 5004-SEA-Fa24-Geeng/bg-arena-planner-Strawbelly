@@ -15,7 +15,7 @@ public class GameList implements IGameList {
      * Constructor for the GameList.
      */
     public GameList() {
-        setOfGames = new LinkedHashSet<>();
+        setOfGames = new TreeSet<>(Comparator.comparing(String::toLowerCase));
     }
 
     /**
@@ -220,12 +220,7 @@ public class GameList implements IGameList {
      */
     private void removeSingleGameFromList(int number) {
         List<String> gameList = new ArrayList<>(setOfGames);
-        String gameName = "";
-        for (int i = gameList.size() - 1; i >= 0; i--) {
-            if (i == number) {
-                gameName = gameList.get(i);
-            }
-        }
+        String gameName = gameList.get(number);
         setOfGames.remove(gameName);
     }
 

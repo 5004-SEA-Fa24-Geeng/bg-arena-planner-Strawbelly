@@ -27,7 +27,7 @@ class GameListTest {
     @BeforeEach
     void setUp() {
         // create a set of games for testing
-        games = new LinkedHashSet<>();
+        games = new TreeSet<>((g1, g2) -> g1.getName().compareTo(g2.getName()));
         games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
         games.add(new BoardGame("Chess", 7, 2, 2, 10, 20, 10.0, 700, 10.0, 2006));
         games.add(new BoardGame("Go", 1, 2, 5, 30, 30, 8.0, 100, 7.5, 2000));
