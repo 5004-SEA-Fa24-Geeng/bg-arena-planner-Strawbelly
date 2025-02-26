@@ -15,7 +15,13 @@ public class GameList implements IGameList {
      * Constructor for the GameList.
      */
     public GameList() {
-        setOfGames = new TreeSet<>((g1, g2) -> g1.compareToIgnoreCase(g2));
+        setOfGames = new TreeSet<>( (g1, g2) -> {
+            int compare = g1.compareToIgnoreCase(g2);
+            if (compare == 0) {
+                compare = g1.compareTo(g2);
+            }
+            return compare;
+        });
     }
 
     /**
@@ -233,14 +239,8 @@ public class GameList implements IGameList {
      */
     private void removeRangeFromList(int start, int end) {
         List<String> gameList = new ArrayList<>(setOfGames);
-        Set<String> removedGames = new HashSet<>();
-        for (int i = gameList.size() - 1; i >= 0; i--) {
-            if (i >= start && i <= end) {
-               removedGames.add(gameList.get(i));
-            }
-        }
-        for (String game : removedGames) {
-            setOfGames.remove(game);
+        for (int i = start; i <= end; i++) {
+            setOfGames.remove(gameList.get(i));
         }
     }
 }

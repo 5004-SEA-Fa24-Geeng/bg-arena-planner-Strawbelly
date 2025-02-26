@@ -39,8 +39,10 @@ class GameListTest {
 
         // create a game list for testing
         gameList = new GameList();
-        gameList.addToList("Chess", games.stream());
+        gameList.addToList("Go", games.stream());
+        gameList.addToList("Go Fish", games.stream());
         gameList.addToList("golang", games.stream());
+        gameList.addToList("GoRami", games.stream());
 
         // get the name of the test file
         testFile = tempDir.resolve("test_games.txt").toString();
@@ -50,15 +52,15 @@ class GameListTest {
     @Test
     void getGameNames() {
         List<String> gameNames = gameList.getGameNames();
-        assertEquals(2, gameNames.size());
-        assertTrue(gameNames.contains("Chess"));
+        assertEquals(4, gameNames.size());
+        assertFalse(gameNames.contains("Chess"));
         assertTrue(gameNames.contains("golang"));
-        assertFalse(gameNames.contains("Go"));
+        assertTrue(gameNames.contains("Go"));
     }
 
     @Test
     void clear() {
-        assertEquals(2, gameList.count());
+        assertEquals(4, gameList.count());
         gameList.clear();
         assertEquals(0, gameList.count());
     }
@@ -66,7 +68,7 @@ class GameListTest {
     @Test
     void count() {
         List<String> gameNames = gameList.getGameNames();
-        assertEquals(2, gameNames.size());
+        assertEquals(4, gameNames.size());
     }
 
     @Test
@@ -74,8 +76,11 @@ class GameListTest {
         gameList.saveGame(testFile);
         try {
             BufferedReader reader = new BufferedReader(new FileReader(testFile));
-            assertEquals("Chess", reader.readLine());
+            assertEquals("Go", reader.readLine());
+            assertEquals("Go Fish", reader.readLine());
             assertEquals("golang", reader.readLine());
+            assertEquals("GoRami", reader.readLine());
+
             assertNull(reader.readLine());
             reader.close();
         } catch (IOException e) {
@@ -170,7 +175,9 @@ class GameListTest {
     @Test
     void testRemoveSingleGameFromList() {
         gameList.removeFromList("1");
-        assertEquals(1, gameList.count());
+        assertEquals(3, gameList.count());
+        assertEquals("Go Fish", gameList.getGameNames().get(0));
+
 
         assertThrows(IllegalArgumentException.class, () -> {
             gameList.removeFromList("0");
@@ -183,12 +190,12 @@ class GameListTest {
 
     @Test
     void testRemoveRangeFromList() {
-        // the correct range of number of games is between 1 and 2
+        // the correct range of number of games is between 1 and 4
         assertThrows(IllegalArgumentException.class, () -> {
-            gameList.removeFromList("3-1");
+            gameList.removeFromList("5-1");
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            gameList.removeFromList("1-3");
+            gameList.removeFromList("1-5");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -203,25 +210,29 @@ class GameListTest {
 
         // create a new game list for testing
         gameList = new GameList();
-        gameList.addToList("1", games.stream());
-        gameList.addToList("2", games.stream());
+        gameList.addToList("Go", games.stream());
+        gameList.addToList("Go Fish", games.stream());
+        gameList.addToList("golang", games.stream());
+        gameList.addToList("GoRami", games.stream());
         gameList.removeFromList("1-1");
-        assertEquals(1, gameList.count());
-        assertFalse(gameList.getGameNames().contains("17 days"));
-        assertTrue(gameList.getGameNames().contains("Chess"));
+        assertEquals(3, gameList.count());
+        assertFalse(gameList.getGameNames().contains("Go"));
+        assertEquals("Go Fish", gameList.getGameNames().get(0));
 
         // create a new game list for testing
         gameList = new GameList();
-        gameList.addToList("1", games.stream());
-        gameList.addToList("2", games.stream());
-        gameList.removeFromList("1-2");
+        gameList.addToList("Go", games.stream());
+        gameList.addToList("Go Fish", games.stream());
+        gameList.addToList("golang", games.stream());
+        gameList.addToList("GoRami", games.stream());
+        gameList.removeFromList("1-4");
         assertEquals(0, gameList.count());
     }
 
     @Test
     void testRemoveGameBasedOnGame() {
         gameList.removeFromList("golang");
-        assertEquals(1, gameList.count());
+        assertEquals(3, gameList.count());
 
         assertThrows(IllegalArgumentException.class, () -> {
             gameList.removeFromList("goTiger");

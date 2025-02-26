@@ -2,14 +2,17 @@ package student;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planner implements IPlanner {
 
-    private Set<BoardGame> games;
+    private Set<BoardGame> originalGames;
+    private Stream<BoardGame> currentGames;
 
     public Planner(Set<BoardGame> games) {
-        this.games = games;
+        this.originalGames = games;
+        this.currentGames = games.stream();
     }
 
     /**
@@ -22,27 +25,26 @@ public class Planner implements IPlanner {
     public Stream<BoardGame> filter(String filter) {
 
         if (filter.isEmpty()) {
-            return sortOn(games.stream(), GameData.NAME, true);
+            return currentGames = sortOn(currentGames, GameData.NAME, true);
         }
 
         if (!filter.contains(",")) {
             // the filter string only has one filter
-            return sortOn(filterSingle(filter, games.stream()), GameData.NAME, true);
+            return currentGames = sortOn(filterSingle(filter, currentGames), GameData.NAME, true);
         }
 
         // the filter string has multiple filters
         String[] filters = filter.split(",");
-        Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
-            filteredGames = filterSingle(condition, filteredGames);
-            if (filteredGames == null) {
+            currentGames = filterSingle(condition, currentGames);
+            if (currentGames == null) {
                 break;
             }
         }
-        if (filteredGames != null) {
-            return sortOn(filteredGames, GameData.NAME, true);
+        if (currentGames != null) {
+            return currentGames = sortOn(currentGames, GameData.NAME, true);
         }
-        return filteredGames;
+        return currentGames;
     }
 
     /**
@@ -55,28 +57,27 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn) {
         if (filter.isEmpty()) {
-            return sortOn(games.stream(), sortOn, true);
+            return currentGames = sortOn(currentGames, sortOn, true);
         }
 
         if (!filter.contains(",")) {
             // the filter string only has one filter
-            Stream<BoardGame> boardGameStream = filterSingle(filter, games.stream());
-            return sortOn(boardGameStream, sortOn, true);
+            Stream<BoardGame> boardGameStream = filterSingle(filter, currentGames);
+            return currentGames = sortOn(boardGameStream, sortOn, true);
         }
 
         // the filter string has multiple filters
         String[] filters = filter.split(",");
-        Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
-            filteredGames = filterSingle(condition, filteredGames);
-            if (filteredGames == null) {
+            currentGames = filterSingle(condition, currentGames);
+            if (currentGames == null) {
                 break;
             }
         }
-        if (filteredGames != null) {
-            return sortOn(filteredGames, sortOn, true);
+        if (currentGames != null) {
+            return sortOn(currentGames, sortOn, true);
         }
-        return filteredGames;
+        return currentGames;
     }
 
     /**
@@ -158,33 +159,27 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
         if (filter.isEmpty()) {
-            return sortOn(games.stream(), sortOn, ascending);
+            return currentGames = sortOn(currentGames, sortOn, ascending);
         }
 
         if (!filter.contains(",")) {
             // the filter string only has one filter
-            Stream<BoardGame> boardGameStream = filterSingle(filter, games.stream());
-            return sortOn(boardGameStream, sortOn, ascending);
+            Stream<BoardGame> boardGameStream = filterSingle(filter, currentGames);
+            return currentGames = sortOn(boardGameStream, sortOn, ascending);
         }
 
         // the filter string has multiple filters
         String[] filters = filter.split(",");
-        Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
-            filteredGames = filterSingle(condition, filteredGames);
-            if (filteredGames == null) {
+            currentGames = filterSingle(condition, currentGames);
+            if (currentGames == null) {
                 break;
             }
         }
-        if (filteredGames != null) {
-            return sortOn(filteredGames, sortOn, ascending);
+        if (currentGames != null) {
+            return sortOn(currentGames, sortOn, ascending);
         }
-        return filteredGames;
-    }
-
-    @Override
-    public void reset() {
-        games.clear();
+        return currentGames;
     }
 
     /**
@@ -223,5 +218,10 @@ public class Planner implements IPlanner {
 
         // filters board games from filterGames stream
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
+    }
+
+    @Override
+    public void reset() {
+        currentGames = originalGames.stream();
     }
 }
