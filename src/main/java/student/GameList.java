@@ -124,6 +124,8 @@ public class GameList implements IGameList {
             } else {
                 throw new IllegalArgumentException("Invalid game name: " + str);
             }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid game number: " + str);
         }
     }
 
@@ -211,6 +213,8 @@ public class GameList implements IGameList {
             } else {
                 throw new IllegalArgumentException("Invalid game name: " + str);
             }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid game number: " + str);
         }
     }
 
