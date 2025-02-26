@@ -81,7 +81,6 @@ public class GameList implements IGameList {
         List<BoardGame> gameList = filtered.toList();
         int size = gameList.size();
 
-
         if (ADD_ALL.equals(str)) {
             addAllToList(gameList);
             return;

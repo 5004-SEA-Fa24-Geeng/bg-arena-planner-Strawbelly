@@ -31,24 +31,27 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter) {
 
-        if (filter.isEmpty()) {
+        if (filter.equals("\"\"")) {
             return currentGames = sortOn(currentGames, GameData.NAME, true);
         }
 
         if (!filter.contains(",")) {
-            return currentGames = sortOn(filterSingle(filter, currentGames), GameData.NAME, true);
+            try {
+                return currentGames = sortOn(filterSingle(filter, currentGames), GameData.NAME, true);
+            } catch (IllegalArgumentException e) {
+                return Stream.empty();
+            }
         }
 
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
-            if (tempStream != null) {
-                currentGames = tempStream;
-            } else {
+            try {
+                currentGames = filterSingle(condition, currentGames);
+            } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return sortOn(currentGames, GameData.NAME, true);
+        return currentGames = sortOn(currentGames, GameData.NAME, true);
     }
 
     /**
@@ -60,25 +63,27 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn) {
-        if (filter.isEmpty()) {
+        if (filter.equals("\"\"")) {
             return currentGames = sortOn(currentGames, sortOn, true);
         }
 
         if (!filter.contains(",")) {
-            Stream<BoardGame> boardGameStream = filterSingle(filter, currentGames);
-            return currentGames = sortOn(boardGameStream, sortOn, true);
+            try {
+                return currentGames = sortOn(filterSingle(filter, currentGames), sortOn, true);
+            } catch (IllegalArgumentException e) {
+                return Stream.empty();
+            }
         }
 
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
-            if (tempStream != null) {
-                currentGames = tempStream;
-            } else {
+            try {
+                currentGames = filterSingle(condition, currentGames);
+            } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return sortOn(currentGames, sortOn, true);
+        return currentGames = sortOn(currentGames, sortOn, true);
     }
 
     /**
@@ -91,27 +96,28 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
-        if (filter.isEmpty()) {
+        if (filter.equals("\"\"")) {
             return currentGames = sortOn(currentGames, sortOn, ascending);
         }
 
         if (!filter.contains(",")) {
-            // the filter string only has one filter
-            Stream<BoardGame> boardGameStream = filterSingle(filter, currentGames);
-            return currentGames = sortOn(boardGameStream, sortOn, ascending);
+            try {
+                return currentGames = sortOn(filterSingle(filter, currentGames), sortOn, ascending);
+            } catch (IllegalArgumentException e) {
+                return Stream.empty();
+            }
         }
 
         // the filter string has multiple filters
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
-            if (tempStream != null) {
-                currentGames = tempStream;
-            } else {
+            try {
+                currentGames = filterSingle(condition, currentGames);
+            } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return sortOn(currentGames, sortOn, ascending);
+        return currentGames = sortOn(currentGames, sortOn, ascending);
     }
 
     /**
@@ -120,23 +126,22 @@ public class Planner implements IPlanner {
      * @param filterGames the stream of board games to be filtered.
      * @return a stream of board games that match the filter condition.
      */
-    private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filterGames) {
-        Stream<BoardGame> filteredGames = null;
+    private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filterGames) throws IllegalArgumentException {
         Operations operator = Operations.getOperatorFromStr(filter);
         if (operator == null) {
-            return filteredGames;
+            throw new IllegalArgumentException("Invalid condition.");
         }
 
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
-            return filteredGames;
+            throw new IllegalArgumentException("Invalid condition.");
         }
 
         GameData column;
         try {
             column = GameData.fromString(parts[0].trim());
         } catch (IllegalArgumentException e) {
-            return filteredGames;
+            throw new IllegalArgumentException("Invalid condition.");
         }
 
         String value;
@@ -146,7 +151,7 @@ public class Planner implements IPlanner {
                 Integer.parseInt(value);
             }
         } catch (IllegalArgumentException e) {
-            return filteredGames;
+            throw new IllegalArgumentException("Contains non-numeric values.");
         }
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
     }
