@@ -81,8 +81,9 @@ public class TestPlanner {
     public void testFilter2() {
         // test string value
         IPlanner planner1 = new Planner(games);
-        List<BoardGame> filtered1 = planner1.filter("name == Go").toList();
-        assertEquals(1, filtered1.size());
+        List<BoardGame> filtered1 = planner1.filter("name ~= Go", GameData.NAME).toList();
+        assertEquals(4, filtered1.size());
         assertEquals("Go", filtered1.get(0).getName());
+        System.out.println(filtered1);
     }
 }

@@ -92,9 +92,9 @@ public class Planner implements IPlanner {
         switch (sortOn) {
             case NAME:
                 if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getName().compareTo(g2.getName()));
+                    return filterGames.sorted((g1, g2) -> g1.getName().compareToIgnoreCase(g2.getName()));
                 } else {
-                    return filterGames.sorted((g1, g2) -> g2.getName().compareTo(g1.getName()));
+                    return filterGames.sorted((g1, g2) -> g2.getName().compareToIgnoreCase(g1.getName()));
                 }
             case RATING:
                 if (ascending) {
