@@ -15,7 +15,7 @@ public class GameList implements IGameList {
      * Constructor for the GameList.
      */
     public GameList() {
-        setOfGames = new TreeSet<>(Comparator.comparing(String::toLowerCase));
+        setOfGames = new TreeSet<>((g1, g2) -> g1.compareToIgnoreCase(g2));
     }
 
     /**
@@ -108,7 +108,9 @@ public class GameList implements IGameList {
             return;
         } catch (NumberFormatException e) {
             // Optional<T> is a wrapper class that helps to handle the case where a value may or may not be present.
-            Optional<BoardGame> game = gameList.stream().filter(boardGame -> boardGame.getName().equals(str.trim())).findFirst();
+            Optional<BoardGame> game = gameList.stream()
+                    .filter(boardGame -> boardGame.getName().equalsIgnoreCase(str.trim()))
+                    .findFirst();
             // isPresent() checks whether a value exists inside the Optional.
             if (game.isPresent()) {
                 addGameBasedOnName(str);
@@ -219,7 +221,7 @@ public class GameList implements IGameList {
      * @param number the index of the game removed from the game list.
      */
     private void removeSingleGameFromList(int number) {
-        List<String> gameList = new ArrayList<>(setOfGames);
+        List<String> gameList = List.copyOf(setOfGames);
         String gameName = gameList.get(number);
         setOfGames.remove(gameName);
     }

@@ -34,7 +34,10 @@ public class Planner implements IPlanner {
         String[] filters = filter.split(",");
         Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
-            filteredGames = filterSingle(condition.trim(), filteredGames);
+            filteredGames = filterSingle(condition, filteredGames);
+            if (filteredGames == null) {
+                break;
+            }
         }
         if (filteredGames != null) {
             return sortOn(filteredGames, GameData.NAME, true);
@@ -66,12 +69,14 @@ public class Planner implements IPlanner {
         Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
             filteredGames = filterSingle(condition, filteredGames);
+            if (filteredGames == null) {
+                break;
+            }
         }
-        List<BoardGame> filteredGamesList = filteredGames.toList();
-        if (!filteredGamesList.isEmpty()) {
+        if (filteredGames != null) {
             return sortOn(filteredGames, sortOn, true);
         }
-        return filteredGamesList.stream();
+        return filteredGames;
     }
 
     /**
@@ -166,14 +171,15 @@ public class Planner implements IPlanner {
         String[] filters = filter.split(",");
         Stream<BoardGame> filteredGames = games.stream();
         for (String condition : filters) {
-            Stream<BoardGame> tempStream = filterSingle(condition.trim(), filteredGames);
-            if (tempStream != null) {
-                filteredGames = tempStream;
-            } else {
+            filteredGames = filterSingle(condition, filteredGames);
+            if (filteredGames == null) {
                 break;
             }
         }
-        return sortOn(filteredGames, sortOn, ascending);
+        if (filteredGames != null) {
+            return sortOn(filteredGames, sortOn, ascending);
+        }
+        return filteredGames;
     }
 
     @Override

@@ -27,7 +27,7 @@ class GameListTest {
     @BeforeEach
     void setUp() {
         // create a set of games for testing
-        games = new TreeSet<>((g1, g2) -> g1.getName().compareTo(g2.getName()));
+        games = new LinkedHashSet<>();
         games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
         games.add(new BoardGame("Chess", 7, 2, 2, 10, 20, 10.0, 700, 10.0, 2006));
         games.add(new BoardGame("Go", 1, 2, 5, 30, 30, 8.0, 100, 7.5, 2000));
@@ -88,6 +88,7 @@ class GameListTest {
         IGameList list1 = new GameList();
         list1.addToList("1", games.stream());
         assertEquals(1, list1.count());
+        assertEquals("17 days", list1.getGameNames().get(0));
         System.out.println(list1.getGameNames());
 
         IGameList list2 = new GameList();
@@ -107,11 +108,13 @@ class GameListTest {
         IGameList list1 = new GameList();
         list1.addToList("1-3", games.stream());
         assertEquals(3, list1.count());
+        assertEquals("17 days", list1.getGameNames().get(0));
         System.out.println(list1.getGameNames());
 
         IGameList list2 = new GameList();
         list2.addToList("1-1", games.stream());
         assertEquals(1, list2.count());
+        assertEquals("17 days", list2.getGameNames().get(0));
         System.out.println(list1.getGameNames());
 
         IGameList list3 = new GameList();
@@ -151,6 +154,8 @@ class GameListTest {
         list2.addToList("Go Fish", games.stream());
         list2.addToList("Tucano", games.stream());
         assertEquals(2, list2.count());
+        assertEquals("Go Fish", list2.getGameNames().get(0));
+
     }
 
     @Test
@@ -158,6 +163,8 @@ class GameListTest {
         IGameList list = new GameList();
         list.addToList("all", games.stream());
         assertEquals(8, list.count());
+        assertEquals("17 days", list.getGameNames().get(0));
+        //System.out.println(list.getGameNames());
     }
 
     @Test
