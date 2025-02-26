@@ -39,15 +39,14 @@ public class Planner implements IPlanner {
 
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            currentGames = filterSingle(condition, currentGames);
-            if (currentGames == null) {
+            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
+            if (tempStream != null) {
+                currentGames = tempStream;
+            } else {
                 break;
             }
         }
-        if (currentGames != null) {
-            return currentGames = sortOn(currentGames, GameData.NAME, true);
-        }
-        return currentGames;
+        return sortOn(currentGames, GameData.NAME, true);
     }
 
     /**
@@ -70,15 +69,14 @@ public class Planner implements IPlanner {
 
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            currentGames = filterSingle(condition, currentGames);
-            if (currentGames == null) {
+            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
+            if (tempStream != null) {
+                currentGames = tempStream;
+            } else {
                 break;
             }
         }
-        if (currentGames != null) {
-            return sortOn(currentGames, sortOn, true);
-        }
-        return currentGames;
+        return sortOn(currentGames, sortOn, true);
     }
 
     /**
@@ -172,15 +170,14 @@ public class Planner implements IPlanner {
         // the filter string has multiple filters
         String[] filters = filter.split(",");
         for (String condition : filters) {
-            currentGames = filterSingle(condition, currentGames);
-            if (currentGames == null) {
+            Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
+            if (tempStream != null) {
+                currentGames = tempStream;
+            } else {
                 break;
             }
         }
-        if (currentGames != null) {
-            return sortOn(currentGames, sortOn, ascending);
-        }
-        return currentGames;
+        return sortOn(currentGames, sortOn, ascending);
     }
 
     /**

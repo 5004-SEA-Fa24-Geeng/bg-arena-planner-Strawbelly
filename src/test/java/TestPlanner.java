@@ -57,7 +57,9 @@ public class TestPlanner {
 
          // invalid column
          IPlanner planner4 = new Planner(games);
-         assertNull(planner4.filter("name ~= Go, minUsers < 2"));
+         List<BoardGame> filtered4 = planner4.filter("name ~= Go, minUsers < 2").toList();
+         assertEquals(3, filtered3.size());
+
 
          // invalid value
          IPlanner planner5 = new Planner(games);
