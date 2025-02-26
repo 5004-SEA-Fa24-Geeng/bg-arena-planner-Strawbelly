@@ -44,6 +44,8 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
+            } else {
+                break;
             }
         }
         return sortOn(currentGames, GameData.NAME, true);
@@ -72,6 +74,8 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
+            } else {
+                break;
             }
         }
         return sortOn(currentGames, sortOn, true);
@@ -171,6 +175,8 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
+            } else {
+                break;
             }
         }
         return sortOn(currentGames, sortOn, ascending);
@@ -189,7 +195,6 @@ public class Planner implements IPlanner {
             return filteredGames;
         }
 
-        filter = filter.replaceAll(" ", "");
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
             return filteredGames;
@@ -197,21 +202,20 @@ public class Planner implements IPlanner {
 
         GameData column;
         try {
-            column = GameData.fromString(parts[0]);
+            column = GameData.fromString(parts[0].trim());
         } catch (IllegalArgumentException e) {
             return filteredGames;
         }
 
         String value;
         try {
-            value = parts[1];
+            value = parts[1].trim();
             if (column != GameData.NAME) {
                 Integer.parseInt(value);
             }
         } catch (IllegalArgumentException e) {
             return filteredGames;
         }
-
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
     }
 
