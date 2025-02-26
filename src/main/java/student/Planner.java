@@ -1,6 +1,8 @@
 package student;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planner implements IPlanner {
@@ -42,8 +44,6 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
-            } else {
-                break;
             }
         }
         return sortOn(currentGames, GameData.NAME, true);
@@ -72,8 +72,6 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
-            } else {
-                break;
             }
         }
         return sortOn(currentGames, sortOn, true);
@@ -173,8 +171,6 @@ public class Planner implements IPlanner {
             Stream<BoardGame> tempStream = filterSingle(condition, currentGames);
             if (tempStream != null) {
                 currentGames = tempStream;
-            } else {
-                break;
             }
         }
         return sortOn(currentGames, sortOn, ascending);
@@ -209,12 +205,16 @@ public class Planner implements IPlanner {
         String value;
         try {
             value = parts[1];
+            if (column != GameData.NAME) {
+                Integer.parseInt(value);
+            }
         } catch (IllegalArgumentException e) {
             return filteredGames;
         }
 
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
     }
+
 
     @Override
     public void reset() {

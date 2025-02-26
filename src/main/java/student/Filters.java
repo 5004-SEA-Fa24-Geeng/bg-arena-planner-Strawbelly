@@ -81,12 +81,7 @@ public final class Filters {
      * @return If the game data meets the filter condition, return true.
      */
     public static boolean filterNumber(int gameData, Operations op, String value) {
-        int val;
-        try {
-            val = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        int val = Integer.parseInt(value);
         switch (op) {
             case EQUALS:
                 return gameData == val;
@@ -114,12 +109,7 @@ public final class Filters {
      * @return If the game data meets the filter condition, return true.
      */
     public static boolean filterNumber(double gameData, Operations op, String value) {
-        double val;
-        try {
-            val = Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        double val = Double.parseDouble(value);
         switch (op) {
             case EQUALS:
                 return gameData == val;
