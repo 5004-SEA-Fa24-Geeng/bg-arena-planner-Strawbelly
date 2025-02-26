@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class Planner implements IPlanner {
 
     /** hold the original board games. */
-    private Set<BoardGame> originalGames;
+    private final Set<BoardGame> originalGames;
 
     /** hold the current filtered board games. */
     private Stream<BoardGame> currentGames;
@@ -82,74 +82,6 @@ public class Planner implements IPlanner {
     }
 
     /**
-     * Sorts the stream of board games based on the specified column and order.
-     * @param filterGames the stream of board games to be sorted.
-     * @param sortOn the column to sort the results on.
-     * @param ascending whether the sort is in ascending order.
-     * @return a sorted stream of board games based on the specified column and order.
-     */
-    private static Stream<BoardGame> sortOn(Stream<BoardGame> filterGames, GameData sortOn, boolean ascending) {
-        switch (sortOn) {
-            case NAME:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getName().compareToIgnoreCase(g2.getName()));
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getName().compareToIgnoreCase(g1.getName()));
-                }
-            case RATING:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> Double.compare(g1.getRating(), g2.getRating()));
-                } else {
-                    return filterGames.sorted((g1, g2) -> Double.compare(g2.getRating(), g1.getRating()));
-                }
-            case DIFFICULTY:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> Double.compare(g1.getDifficulty(), g2.getDifficulty()));
-                } else {
-                    return filterGames.sorted((g1, g2) -> Double.compare(g2.getDifficulty(), g1.getDifficulty()));
-                }
-            case RANK:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getRank() - g2.getRank());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getRank() - g1.getRank());
-                }
-            case MIN_PLAYERS:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getMinPlayers() - g2.getMinPlayers());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getMinPlayers() - g1.getMinPlayers());
-                }
-            case MAX_PLAYERS:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getMaxPlayers() - g2.getMaxPlayers());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getMaxPlayers() - g1.getMaxPlayers());
-                }
-            case MIN_TIME:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getMinPlayTime() - g2.getMinPlayTime());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getMinPlayTime() - g1.getMinPlayTime());
-                }
-            case MAX_TIME:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getMaxPlayTime() - g2.getMaxPlayTime());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getMaxPlayTime() - g1.getMaxPlayTime());
-                }
-            case YEAR:
-                if (ascending) {
-                    return filterGames.sorted((g1, g2) -> g1.getYearPublished() - g2.getYearPublished());
-                } else {
-                    return filterGames.sorted((g1, g2) -> g2.getYearPublished() - g1.getYearPublished());
-                }
-            default:
-                return filterGames;
-        }
-    }
-
-    /**
      * Filters board games based on the string filter,
      * and sorts the stream of board games based on the specific column in the specific order.
      * @param filter The filter to apply to the board games.
@@ -219,9 +151,76 @@ public class Planner implements IPlanner {
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
     }
 
+    /**
+     * Sorts the stream of board games based on the specified column and order.
+     * @param filterGames the stream of board games to be sorted.
+     * @param sortOn the column to sort the results on.
+     * @param ascending whether the sort is in ascending order.
+     * @return a sorted stream of board games based on the specified column and order.
+     */
+    private static Stream<BoardGame> sortOn(Stream<BoardGame> filterGames, GameData sortOn, boolean ascending) {
+        switch (sortOn) {
+            case NAME:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getName().compareToIgnoreCase(g2.getName()));
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getName().compareToIgnoreCase(g1.getName()));
+                }
+            case RATING:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> Double.compare(g1.getRating(), g2.getRating()));
+                } else {
+                    return filterGames.sorted((g1, g2) -> Double.compare(g2.getRating(), g1.getRating()));
+                }
+            case DIFFICULTY:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> Double.compare(g1.getDifficulty(), g2.getDifficulty()));
+                } else {
+                    return filterGames.sorted((g1, g2) -> Double.compare(g2.getDifficulty(), g1.getDifficulty()));
+                }
+            case RANK:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getRank() - g2.getRank());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getRank() - g1.getRank());
+                }
+            case MIN_PLAYERS:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getMinPlayers() - g2.getMinPlayers());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getMinPlayers() - g1.getMinPlayers());
+                }
+            case MAX_PLAYERS:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getMaxPlayers() - g2.getMaxPlayers());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getMaxPlayers() - g1.getMaxPlayers());
+                }
+            case MIN_TIME:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getMinPlayTime() - g2.getMinPlayTime());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getMinPlayTime() - g1.getMinPlayTime());
+                }
+            case MAX_TIME:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getMaxPlayTime() - g2.getMaxPlayTime());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getMaxPlayTime() - g1.getMaxPlayTime());
+                }
+            case YEAR:
+                if (ascending) {
+                    return filterGames.sorted((g1, g2) -> g1.getYearPublished() - g2.getYearPublished());
+                } else {
+                    return filterGames.sorted((g1, g2) -> g2.getYearPublished() - g1.getYearPublished());
+                }
+            default:
+                return filterGames;
+        }
+    }
 
     @Override
     public void reset() {
-        currentGames = originalGames.stream();
+        this.currentGames = this.originalGames.stream();
     }
 }

@@ -36,7 +36,7 @@ public class TestPlanner {
     }
 
      @Test
-    public void testFilter1() {
+    public void testFilter() {
         // test string value
         IPlanner planner1 = new Planner(games);
         List<BoardGame> filtered1 = planner1.filter("name == Go").toList();
@@ -59,17 +59,19 @@ public class TestPlanner {
          IPlanner planner4 = new Planner(games);
          List<BoardGame> filtered4 = planner4.filter("name ~= Go, minUsers < 2").toList();
          assertEquals(4, filtered4.size());
-
+         assertEquals("Go", filtered3.get(0).getName());
 
          // invalid value
          IPlanner planner5 = new Planner(games);
          List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go").toList();
          assertEquals(7, filtered5.size());
+         System.out.println(filtered5);
 
          // test double value
          IPlanner planner6 = new Planner(games);
          List<BoardGame> filtered6 = planner6.filter("rating > 9").toList();
          assertEquals(2, filtered6.size());
+         //System.out.println(filtered6);
          assertEquals("Chess", filtered6.get(0).getName());
 
          // test int value
@@ -80,12 +82,103 @@ public class TestPlanner {
     }
 
     @Test
-    public void testFilter2() {
+    public void testFilterWithSortOn() {
         // test string value
         IPlanner planner1 = new Planner(games);
         List<BoardGame> filtered1 = planner1.filter("name ~= Go", GameData.NAME).toList();
         assertEquals(4, filtered1.size());
         assertEquals("Go", filtered1.get(0).getName());
         System.out.println(filtered1);
+
+        // test empty filter
+        IPlanner planner2 = new Planner(games);
+        List<BoardGame> filtered2 = planner2.filter("", GameData.RANK).toList();
+        assertEquals(8, filtered2.size());
+        assertEquals("Go", filtered2.get(0).getName());
+
+        // test multiple filters
+        IPlanner planner3 = new Planner(games);
+        List<BoardGame> filtered3 = planner3.filter("name ~= Go, minPlayers <= 2", GameData.MAX_PLAYERS).toList();
+        assertEquals(3, filtered3.size());
+        assertEquals("Go", filtered3.get(0).getName());
+
+        // invalid column
+        IPlanner planner4 = new Planner(games);
+        List<BoardGame> filtered4 = planner4.filter("name ~= Go, minUsers < 2", GameData.NAME).toList();
+        assertEquals(4, filtered4.size());
+
+
+        // invalid value
+        IPlanner planner5 = new Planner(games);
+        List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go", GameData.YEAR).toList();
+        assertEquals(7, filtered5.size());
+        assertEquals("Go Fish", filtered5.get(0).getName());
+
+        // test double value
+        IPlanner planner6 = new Planner(games);
+        List<BoardGame> filtered6 = planner6.filter("rating > 9", GameData.DIFFICULTY).toList();
+        assertEquals(2, filtered6.size());
+        assertEquals("golang", filtered6.get(0).getName());
+
+        // test int value
+        IPlanner planner7 = new Planner(games);
+        List<BoardGame> filtered7 = planner7.filter("year < 2003", GameData.YEAR).toList();
+        assertEquals(3, filtered7.size());
+        assertEquals("Go", filtered7.get(0).getName());
+    }
+
+    @Test
+    public void testFilterWithSortOnAndOrder() {
+        // test string value
+        IPlanner planner1 = new Planner(games);
+        List<BoardGame> filtered1 = planner1.filter("name ~= Go", GameData.NAME, true).toList();
+        assertEquals(4, filtered1.size());
+        assertEquals("Go", filtered1.get(0).getName());
+        System.out.println(filtered1);
+
+        // test empty filter
+        IPlanner planner2 = new Planner(games);
+        List<BoardGame> filtered2 = planner2.filter("", GameData.RANK, false).toList();
+        assertEquals(8, filtered2.size());
+        assertEquals("Monopoly", filtered2.get(0).getName());
+
+        // test multiple filters
+        IPlanner planner3 = new Planner(games);
+        List<BoardGame> filtered3 = planner3.filter("name ~= Go, minPlayers <= 2", GameData.MAX_PLAYERS, true).toList();
+        assertEquals(3, filtered3.size());
+        assertEquals("Go", filtered3.get(0).getName());
+
+        // invalid column
+        IPlanner planner4 = new Planner(games);
+        List<BoardGame> filtered4 = planner4.filter("name ~= Go, minUsers < 2", GameData.NAME, true).toList();
+        assertEquals(4, filtered4.size());
+
+        // invalid value
+        IPlanner planner5 = new Planner(games);
+        List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go", GameData.YEAR, true).toList();
+        assertEquals(7, filtered5.size());
+        assertEquals("Go Fish", filtered5.get(0).getName());
+
+        // test double value
+        IPlanner planner6 = new Planner(games);
+        List<BoardGame> filtered6 = planner6.filter("rating > 9", GameData.DIFFICULTY, false).toList();
+        assertEquals(2, filtered6.size());
+        assertEquals("Chess", filtered6.get(0).getName());
+
+        // test int value
+        IPlanner planner7 = new Planner(games);
+        List<BoardGame> filtered7 = planner7.filter("year < 2003", GameData.YEAR, false).toList();
+        assertEquals(3, filtered7.size());
+        assertEquals("GoRami", filtered7.get(0).getName());
+    }
+
+    @Test
+    public void testReset() {
+        IPlanner planner = new Planner(games);
+        List<BoardGame> filtered = planner.filter("name == Go").toList();
+        assertEquals(1, filtered.size());
+        planner.reset();
+        List<BoardGame> filtered2 = planner.filter("").toList();
+        assertEquals(8, filtered2.size());
     }
 }
