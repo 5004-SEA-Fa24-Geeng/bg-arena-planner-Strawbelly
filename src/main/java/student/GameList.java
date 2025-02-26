@@ -15,7 +15,7 @@ public class GameList implements IGameList {
      * Constructor for the GameList.
      */
     public GameList() {
-        setOfGames = new TreeSet<>( (g1, g2) -> {
+        setOfGames = new TreeSet<>((g1, g2) -> {
             int compare = g1.compareToIgnoreCase(g2);
             if (compare == 0) {
                 compare = g1.compareTo(g2);

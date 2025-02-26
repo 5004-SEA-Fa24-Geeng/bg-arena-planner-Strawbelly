@@ -1,15 +1,20 @@
 package student;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Planner implements IPlanner {
 
+    /** hold the original board games. */
     private Set<BoardGame> originalGames;
+
+    /** hold the current filtered board games. */
     private Stream<BoardGame> currentGames;
 
+    /**
+     * Constructor for Planner.
+     * @param games the board games.
+     */
     public Planner(Set<BoardGame> games) {
         this.originalGames = games;
         this.currentGames = games.stream();
@@ -29,11 +34,9 @@ public class Planner implements IPlanner {
         }
 
         if (!filter.contains(",")) {
-            // the filter string only has one filter
             return currentGames = sortOn(filterSingle(filter, currentGames), GameData.NAME, true);
         }
 
-        // the filter string has multiple filters
         String[] filters = filter.split(",");
         for (String condition : filters) {
             currentGames = filterSingle(condition, currentGames);
@@ -61,12 +64,10 @@ public class Planner implements IPlanner {
         }
 
         if (!filter.contains(",")) {
-            // the filter string only has one filter
             Stream<BoardGame> boardGameStream = filterSingle(filter, currentGames);
             return currentGames = sortOn(boardGameStream, sortOn, true);
         }
 
-        // the filter string has multiple filters
         String[] filters = filter.split(",");
         for (String condition : filters) {
             currentGames = filterSingle(condition, currentGames);
@@ -194,21 +195,20 @@ public class Planner implements IPlanner {
         if (operator == null) {
             return filteredGames;
         }
-        // remove spaces
-        filter = filter.replaceAll(" ", "");
 
+        filter = filter.replaceAll(" ", "");
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
             return filteredGames;
         }
-        // get column
+
         GameData column;
         try {
             column = GameData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
             return filteredGames;
         }
-        // get value
+
         String value;
         try {
             value = parts[1];
@@ -216,7 +216,6 @@ public class Planner implements IPlanner {
             return filteredGames;
         }
 
-        // filters board games from filterGames stream
         return filterGames.filter(game -> Filters.filter(game, column, operator, value));
     }
 

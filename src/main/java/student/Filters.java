@@ -3,9 +3,9 @@ package student;
 public final class Filters {
 
     /**
-     * Constructor for Filters
+     * Constructor for Filters.
      */
-    private Filters(){}
+    private Filters() {}
 
     /**
      * Filters a board game based on the column, operation, and value.
@@ -58,7 +58,7 @@ public final class Filters {
      * @param value the string value to be compared against.
      * @return If the game data meets the filter condition, return true.
      */
-    public static boolean filterString(String gameData , Operations op, String value) {
+    public static boolean filterString(String gameData, Operations op, String value) {
         // If filtering on a string column, the filter should be case insensitive.
         switch (op) {
             case EQUALS:
@@ -80,7 +80,7 @@ public final class Filters {
      * @param value the string value to be compared against.
      * @return If the game data meets the filter condition, return true.
      */
-    public static boolean filterNumber(int gameData , Operations op, String value) {
+    public static boolean filterNumber(int gameData, Operations op, String value) {
         int val;
         try {
             val = Integer.parseInt(value);
