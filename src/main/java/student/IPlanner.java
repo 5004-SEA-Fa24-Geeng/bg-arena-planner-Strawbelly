@@ -20,7 +20,7 @@ public interface IPlanner {
 
     /**
      * 
-     * Assumes the results are sorted in ascending order, and that the steam is sorted by the name
+     * Assumes the results are sorted in ascending order, and that the stream is sorted by the name
      * of the board game (GameData.NAME).
      * 
      * @param filter The filter to apply to the board games.

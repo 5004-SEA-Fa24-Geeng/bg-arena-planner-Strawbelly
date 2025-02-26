@@ -2,7 +2,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import student.BoardGame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import student.Planner;
@@ -21,7 +24,7 @@ public class TestPlanner {
 
     @BeforeAll
     public static void setup() {
-        games = new HashSet<>();
+        games = new LinkedHashSet<>();
         games.add(new BoardGame("17 days", 6, 1, 8, 70, 70, 9.0, 600, 9.0, 2005));
         games.add(new BoardGame("Chess", 7, 2, 2, 10, 20, 10.0, 700, 10.0, 2006));
         games.add(new BoardGame("Go", 1, 2, 5, 30, 30, 8.0, 100, 7.5, 2000));
@@ -33,12 +36,53 @@ public class TestPlanner {
     }
 
      @Test
-    public void testFilterName() {
-        IPlanner planner = new Planner(games);
-        List<BoardGame> filtered = planner.filter("name == Go").toList();
-        assertEquals(1, filtered.size());
-        assertEquals("Go", filtered.get(0).getName());
-    }
-    
+    public void testFilter1() {
+        // test string value
+        IPlanner planner1 = new Planner(games);
+        List<BoardGame> filtered1 = planner1.filter("name == Go").toList();
+        assertEquals(1, filtered1.size());
+        assertEquals("Go", filtered1.get(0).getName());
 
+         // test empty filter
+         IPlanner planner2 = new Planner(games);
+         List<BoardGame> filtered2 = planner2.filter("").toList();
+         assertEquals(8, filtered2.size());
+         assertEquals("17 days", filtered2.get(0).getName());
+
+         // test multiple filters
+         IPlanner planner3 = new Planner(games);
+         List<BoardGame> filtered3 = planner3.filter("name ~= Go, minPlayers <= 2").toList();
+         assertEquals(3, filtered3.size());
+         assertEquals("Go", filtered3.get(0).getName());
+
+         // invalid column
+         IPlanner planner4 = new Planner(games);
+         assertNull(planner4.filter("name ~= Go, minUsers < 2"));
+
+         // invalid value
+         IPlanner planner5 = new Planner(games);
+         List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go").toList();
+         assertEquals(0, filtered5.size());
+
+         // test double value
+         IPlanner planner6 = new Planner(games);
+         List<BoardGame> filtered6 = planner6.filter("rating > 9").toList();
+         assertEquals(2, filtered6.size());
+         assertEquals("Chess", filtered6.get(0).getName());
+
+         // test int value
+         IPlanner planner7 = new Planner(games);
+         List<BoardGame> filtered7 = planner7.filter("year < 2003").toList();
+         assertEquals(3, filtered7.size());
+         assertEquals("Go", filtered7.get(0).getName());
+    }
+
+    @Test
+    public void testFilter2() {
+        // test string value
+        IPlanner planner1 = new Planner(games);
+        List<BoardGame> filtered1 = planner1.filter("name == Go").toList();
+        assertEquals(1, filtered1.size());
+        assertEquals("Go", filtered1.get(0).getName());
+    }
 }
