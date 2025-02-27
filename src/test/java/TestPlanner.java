@@ -4,10 +4,8 @@ import student.BoardGame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import student.Planner;
 import student.IPlanner;
 import student.GameData;
