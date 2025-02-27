@@ -43,6 +43,7 @@ public class Planner implements IPlanner {
                         GameData.NAME, true);
                 currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
+
             } catch (IllegalArgumentException e) {
                 return currentGames.stream();
             }

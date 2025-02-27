@@ -80,6 +80,16 @@ public class TestPlanner {
          List<BoardGame> filtered7 = planner7.filter("year < 2003").toList();
          assertEquals(3, filtered7.size());
          assertEquals("Go", filtered7.get(0).getName());
+
+         IPlanner planner8 = new Planner(games);
+         List<BoardGame> filtered8 = planner8.filter("name > good").toList();
+         assertEquals(3, filtered8.size());
+         assertEquals("GoRami", filtered8.get(0).getName());
+
+         IPlanner planner9 = new Planner(games);
+         List<BoardGame> filtered9 = planner9.filter("name < good").toList();
+         assertEquals(5, filtered9.size());
+         assertEquals("17 days", filtered9.get(0).getName());
     }
 
     @Test
@@ -127,6 +137,16 @@ public class TestPlanner {
         List<BoardGame> filtered7 = planner7.filter("year < 2003", GameData.YEAR).toList();
         assertEquals(3, filtered7.size());
         assertEquals("Go", filtered7.get(0).getName());
+
+        IPlanner planner8 = new Planner(games);
+        List<BoardGame> filtered8 = planner8.filter("name > good", GameData.YEAR).toList();
+        assertEquals(3, filtered8.size());
+        assertEquals("GoRami", filtered8.get(0).getName());
+
+        IPlanner planner9 = new Planner(games);
+        List<BoardGame> filtered9 = planner9.filter("name < good", GameData.DIFFICULTY).toList();
+        assertEquals(5, filtered9.size());
+        assertEquals("Go Fish", filtered9.get(0).getName());
     }
 
     @Test
@@ -136,7 +156,7 @@ public class TestPlanner {
         List<BoardGame> filtered1 = planner1.filter("name ~= Go", GameData.NAME, true).toList();
         assertEquals(4, filtered1.size());
         assertEquals("Go", filtered1.get(0).getName());
-        System.out.println(filtered1);
+        //System.out.println(filtered1);
 
         // test empty filter
         IPlanner planner2 = new Planner(games);
@@ -158,6 +178,7 @@ public class TestPlanner {
         // invalid value
         IPlanner planner5 = new Planner(games);
         List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go", GameData.YEAR, true).toList();
+        System.out.println(filtered5);
         assertEquals(7, filtered5.size());
         assertEquals("Go Fish", filtered5.get(0).getName());
 
@@ -172,6 +193,16 @@ public class TestPlanner {
         List<BoardGame> filtered7 = planner7.filter("year < 2003", GameData.YEAR, false).toList();
         assertEquals(3, filtered7.size());
         assertEquals("GoRami", filtered7.get(0).getName());
+
+        IPlanner planner8 = new Planner(games);
+        List<BoardGame> filtered8 = planner8.filter("name < dog", GameData.YEAR, true).toList();
+        assertEquals(2, filtered8.size());
+        assertEquals("17 days", filtered8.get(0).getName());
+
+        IPlanner planner9 = new Planner(games);
+        List<BoardGame> filtered9 = planner9.filter("name >= gofish", GameData.DIFFICULTY, false).toList();
+        assertEquals(5, filtered9.size());
+        assertEquals("golang", filtered9.get(0).getName());
     }
 
     @Test
