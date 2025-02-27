@@ -31,7 +31,7 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter) {
 
-        if (filter.equals("\"\"")) {
+        if (filter.equals("")) {
             Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), GameData.NAME, true);
             currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
             return currentGames.stream();
@@ -74,7 +74,7 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn) {
-        if (filter.equals("\"\"")) {
+        if (filter.equals("")) {
             Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), sortOn, true);
             currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
             return currentGames.stream();
@@ -116,7 +116,7 @@ public class Planner implements IPlanner {
      */
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
-        if (filter.equals("\"\"")) {
+        if (filter.equals("")) {
             Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), sortOn, ascending);
             currentGames = filteredGames
                     .collect(Collectors.toCollection(LinkedHashSet::new));

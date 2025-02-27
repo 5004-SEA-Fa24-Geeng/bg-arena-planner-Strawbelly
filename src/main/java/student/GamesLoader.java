@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +36,7 @@ public final class GamesLoader {
      */
     public static Set<BoardGame> loadGamesFile(String filename) {
 
-        Set<BoardGame> games = new LinkedHashSet<>();
+        Set<BoardGame> games = new HashSet<>();
 
         List<String> lines;
         try {
