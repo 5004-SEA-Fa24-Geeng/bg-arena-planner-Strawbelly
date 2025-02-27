@@ -101,6 +101,8 @@ public class GameList implements IGameList {
                 return;
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Range contains non-numeric values: " + str);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid range: " + str);
             }
         }
 
@@ -196,6 +198,8 @@ public class GameList implements IGameList {
                 return;
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Range contains non-numeric values: " + str);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid range: " + str);
             }
         }
         try {
