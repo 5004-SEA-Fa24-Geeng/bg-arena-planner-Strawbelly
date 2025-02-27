@@ -259,6 +259,6 @@ public class Planner implements IPlanner {
 
     @Override
     public void reset() {
-        this.currentGames = this.originalGames;
+        this.currentGames = new LinkedHashSet<>(this.originalGames);
     }
 }

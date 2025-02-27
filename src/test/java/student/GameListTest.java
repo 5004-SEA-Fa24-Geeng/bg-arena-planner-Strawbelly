@@ -211,7 +211,7 @@ class GameListTest {
         // create a new game list for testing
         gameList = new GameList();
         gameList.addToList("Go", games.stream());
-        gameList.addToList("Go Fish", games.stream());
+        gameList.addToList("go fish", games.stream());
         gameList.addToList("golang", games.stream());
         gameList.addToList("GoRami", games.stream());
         gameList.removeFromList("1-1");
@@ -231,7 +231,7 @@ class GameListTest {
 
     @Test
     void testRemoveGameBasedOnGame() {
-        gameList.removeFromList("golang");
+        gameList.removeFromList("go fish");
         assertEquals(3, gameList.count());
 
         assertThrows(IllegalArgumentException.class, () -> {
