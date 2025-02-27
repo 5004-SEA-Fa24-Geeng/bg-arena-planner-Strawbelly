@@ -118,7 +118,7 @@ public class GameList implements IGameList {
                     .findFirst();
             // isPresent() checks whether a value exists inside the Optional.
             if (game.isPresent()) {
-                addGameBasedOnName(str);
+                addGameBasedOnName(game.get().getName());
                 return;
             } else {
                 throw new IllegalArgumentException("Invalid game name: " + str);
@@ -206,8 +206,12 @@ public class GameList implements IGameList {
             removeSingleGameFromList(number - 1);
             return;
         } catch (NumberFormatException e) {
-            if (setOfGames.contains(str.trim())) {
-                removeGameBasedOnGame(str);
+            Optional<String> game = setOfGames.stream()
+                    .filter(boardGame -> boardGame.equalsIgnoreCase(str.trim()))
+                    .findFirst();
+            // isPresent() checks whether a value exists inside the Optional.
+            if (game.isPresent()) {
+                removeGameBasedOnGame(game.get());
                 return;
             } else {
                 throw new IllegalArgumentException("Invalid game name: " + str);
