@@ -39,7 +39,8 @@ public class Planner implements IPlanner {
 
         if (!filter.contains(",")) {
             try {
-                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()), GameData.NAME, true);
+                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()),
+                        GameData.NAME, true);
                 currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
@@ -52,7 +53,8 @@ public class Planner implements IPlanner {
         for (String condition : filters) {
             try {
                 filteredStream = currentGames.stream();
-                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
+                currentGames = filterSingle(condition, filteredStream)
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
@@ -92,7 +94,8 @@ public class Planner implements IPlanner {
         for (String condition : filters) {
             try {
                 filteredStream = currentGames.stream();
-                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
+                currentGames = filterSingle(condition, filteredStream)
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
@@ -114,14 +117,17 @@ public class Planner implements IPlanner {
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
         if (filter.equals("\"\"")) {
             Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), sortOn, ascending);
-            currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+            currentGames = filteredGames
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
             return currentGames.stream();
         }
 
         if (!filter.contains(",")) {
             try {
-                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()), sortOn, ascending);
-                currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream())
+                        , sortOn, ascending);
+                currentGames = filteredGames
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
                 return currentGames.stream();
@@ -134,7 +140,8 @@ public class Planner implements IPlanner {
         for (String condition : filters) {
             try {
                 filteredStream = currentGames.stream();
-                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
+                currentGames = filterSingle(condition, filteredStream)
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
@@ -150,7 +157,8 @@ public class Planner implements IPlanner {
      * @param filterGames the stream of board games to be filtered.
      * @return a stream of board games that match the filter condition.
      */
-    private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filterGames) throws IllegalArgumentException {
+    private Stream<BoardGame> filterSingle(String filter, Stream<BoardGame> filterGames)
+            throws IllegalArgumentException {
         Operations operator = Operations.getOperatorFromStr(filter);
         if (operator == null) {
             throw new IllegalArgumentException("Invalid condition.");

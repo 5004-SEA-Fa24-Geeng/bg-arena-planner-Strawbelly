@@ -194,7 +194,7 @@ public class GameList implements IGameList {
                 }
                 removeRangeFromList(start - 1, end - 1);
                 return;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Range contains non-numeric values: " + str);
             }
         }

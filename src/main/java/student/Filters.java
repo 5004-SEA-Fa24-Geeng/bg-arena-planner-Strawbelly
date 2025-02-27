@@ -5,7 +5,9 @@ public final class Filters {
     /**
      * Constructor for Filters.
      */
-    private Filters() {}
+    private Filters() {
+
+    }
 
     /**
      * Filters a board game based on the column, operation, and value.
