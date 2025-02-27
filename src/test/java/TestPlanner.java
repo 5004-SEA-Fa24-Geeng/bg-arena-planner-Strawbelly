@@ -46,6 +46,7 @@ public class TestPlanner {
          // test empty filter
          IPlanner planner2 = new Planner(games);
          List<BoardGame> filtered2 = planner2.filter("\"\"").toList();
+         System.out.println(filtered2);
          assertEquals(8, filtered2.size());
          assertEquals("17 days", filtered2.get(0).getName());
 
@@ -99,6 +100,7 @@ public class TestPlanner {
         // test multiple filters
         IPlanner planner3 = new Planner(games);
         List<BoardGame> filtered3 = planner3.filter("name ~= Go, minPlayers <= 2", GameData.MAX_PLAYERS).toList();
+        System.out.println(filtered3);
         assertEquals(3, filtered3.size());
         assertEquals("Go", filtered3.get(0).getName());
 

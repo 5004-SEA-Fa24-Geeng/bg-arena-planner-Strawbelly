@@ -59,6 +59,7 @@ public final class Filters {
      * @return If the game data meets the filter condition, return true.
      */
     public static boolean filterString(String gameData, Operations op, String value) {
+        gameData = gameData.replaceAll(" ", "");
         // If filtering on a string column, the filter should be case insensitive.
         switch (op) {
             case EQUALS:

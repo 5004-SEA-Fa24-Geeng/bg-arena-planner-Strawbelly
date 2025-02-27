@@ -51,12 +51,13 @@ public class Planner implements IPlanner {
         Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                filteredStream = filterSingle(condition, filteredStream);
+                filteredStream = currentGames.stream();
+                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        filteredStream = sortOn(filteredStream, GameData.NAME, true);
+        filteredStream = sortOn(currentGames.stream(), GameData.NAME, true);
         currentGames = filteredStream.collect(Collectors.toCollection(LinkedHashSet::new));
         return currentGames.stream();
     }
@@ -90,7 +91,8 @@ public class Planner implements IPlanner {
         Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                filteredStream = filterSingle(condition, filteredStream);
+                filteredStream = currentGames.stream();
+                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
@@ -131,7 +133,8 @@ public class Planner implements IPlanner {
         Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                filteredStream = filterSingle(condition, filteredStream);
+                filteredStream = currentGames.stream();
+                currentGames = filterSingle(condition, filteredStream).collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
                 break;
             }
@@ -153,6 +156,7 @@ public class Planner implements IPlanner {
             throw new IllegalArgumentException("Invalid condition.");
         }
 
+        filter = filter.replaceAll(" ", "");
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
             throw new IllegalArgumentException("Invalid condition.");
@@ -160,14 +164,14 @@ public class Planner implements IPlanner {
 
         GameData column;
         try {
-            column = GameData.fromString(parts[0].trim());
+            column = GameData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid condition.");
         }
 
         String value;
         try {
-            value = parts[1].trim();
+            value = parts[1];
             if (column != GameData.NAME) {
                 Integer.parseInt(value);
             }
