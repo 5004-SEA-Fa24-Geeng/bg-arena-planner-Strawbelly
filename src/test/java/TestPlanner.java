@@ -65,7 +65,7 @@ public class TestPlanner {
          IPlanner planner5 = new Planner(games);
          List<BoardGame> filtered5 = planner5.filter("name != Go, minPlaytime >= go").toList();
          assertEquals(7, filtered5.size());
-         System.out.println(filtered5);
+         //System.out.println(filtered5);
 
          // test double value
          IPlanner planner6 = new Planner(games);
@@ -88,7 +88,7 @@ public class TestPlanner {
         List<BoardGame> filtered1 = planner1.filter("name ~= Go", GameData.NAME).toList();
         assertEquals(4, filtered1.size());
         assertEquals("Go", filtered1.get(0).getName());
-        System.out.println(filtered1);
+        //System.out.println(filtered1);
 
         // test empty filter
         IPlanner planner2 = new Planner(games);

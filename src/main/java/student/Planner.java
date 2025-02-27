@@ -1,6 +1,6 @@
 package student;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,15 +11,15 @@ public class Planner implements IPlanner {
     private final Set<BoardGame> originalGames;
 
     /** hold the current filtered board games. */
-    private Stream<BoardGame> currentGames;
+    private Set<BoardGame> currentGames;
 
     /**
      * Constructor for Planner.
      * @param games the board games.
      */
     public Planner(Set<BoardGame> games) {
-        this.originalGames = games;
-        this.currentGames = games.stream();
+        this.originalGames = new LinkedHashSet<>(games);
+        this.currentGames = new LinkedHashSet<>(games);
     }
 
     /**
@@ -32,26 +32,33 @@ public class Planner implements IPlanner {
     public Stream<BoardGame> filter(String filter) {
 
         if (filter.equals("\"\"")) {
-            return currentGames = sortOn(currentGames, GameData.NAME, true);
+            Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), GameData.NAME, true);
+            currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+            return currentGames.stream();
         }
 
         if (!filter.contains(",")) {
             try {
-                return currentGames = sortOn(filterSingle(filter, currentGames), GameData.NAME, true);
+                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()), GameData.NAME, true);
+                currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+                return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return Stream.empty();
+                return currentGames.stream();
             }
         }
 
         String[] filters = filter.split(",");
+        Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                currentGames = filterSingle(condition, currentGames);
+                filteredStream = filterSingle(condition, filteredStream);
             } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return currentGames = sortOn(currentGames, GameData.NAME, true);
+        filteredStream = sortOn(filteredStream, GameData.NAME, true);
+        currentGames = filteredStream.collect(Collectors.toCollection(LinkedHashSet::new));
+        return currentGames.stream();
     }
 
     /**
@@ -64,26 +71,33 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn) {
         if (filter.equals("\"\"")) {
-            return currentGames = sortOn(currentGames, sortOn, true);
+            Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), sortOn, true);
+            currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+            return currentGames.stream();
         }
 
         if (!filter.contains(",")) {
             try {
-                return currentGames = sortOn(filterSingle(filter, currentGames), sortOn, true);
+                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()), sortOn, true);
+                currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+                return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return Stream.empty();
+                return currentGames.stream();
             }
         }
 
         String[] filters = filter.split(",");
+        Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                currentGames = filterSingle(condition, currentGames);
+                filteredStream = filterSingle(condition, filteredStream);
             } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return currentGames = sortOn(currentGames, sortOn, true);
+        filteredStream = sortOn(currentGames.stream(), sortOn, true);
+        currentGames = filteredStream.collect(Collectors.toCollection(LinkedHashSet::new));
+        return currentGames.stream();
     }
 
     /**
@@ -97,27 +111,34 @@ public class Planner implements IPlanner {
     @Override
     public Stream<BoardGame> filter(String filter, GameData sortOn, boolean ascending) {
         if (filter.equals("\"\"")) {
-            return currentGames = sortOn(currentGames, sortOn, ascending);
+            Stream<BoardGame> filteredGames = sortOn(currentGames.stream(), sortOn, ascending);
+            currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+            return currentGames.stream();
         }
 
         if (!filter.contains(",")) {
             try {
-                return currentGames = sortOn(filterSingle(filter, currentGames), sortOn, ascending);
+                Stream<BoardGame> filteredGames = sortOn(filterSingle(filter, currentGames.stream()), sortOn, ascending);
+                currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
+                return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return Stream.empty();
+                return currentGames.stream();
             }
         }
 
         // the filter string has multiple filters
         String[] filters = filter.split(",");
+        Stream<BoardGame> filteredStream = currentGames.stream();
         for (String condition : filters) {
             try {
-                currentGames = filterSingle(condition, currentGames);
+                filteredStream = filterSingle(condition, filteredStream);
             } catch (IllegalArgumentException e) {
                 break;
             }
         }
-        return currentGames = sortOn(currentGames, sortOn, ascending);
+        filteredStream = sortOn(currentGames.stream(), sortOn, ascending);
+        currentGames = filteredStream.collect(Collectors.toCollection(LinkedHashSet::new));
+        return currentGames.stream();
     }
 
     /**
@@ -226,6 +247,6 @@ public class Planner implements IPlanner {
 
     @Override
     public void reset() {
-        this.currentGames = this.originalGames.stream();
+        this.currentGames = this.originalGames;
     }
 }
