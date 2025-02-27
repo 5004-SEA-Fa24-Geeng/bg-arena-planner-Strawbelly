@@ -44,7 +44,8 @@ public class Planner implements IPlanner {
                 currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return currentGames.stream();
+                currentGames = new LinkedHashSet<>();
+                return Stream.empty();
             }
         }
 
@@ -56,6 +57,7 @@ public class Planner implements IPlanner {
                 currentGames = filterSingle(condition, filteredStream)
                         .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
+                currentGames = new LinkedHashSet<>();
                 break;
             }
         }
@@ -85,7 +87,8 @@ public class Planner implements IPlanner {
                 currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return currentGames.stream();
+                currentGames = new LinkedHashSet<>();
+                return Stream.empty();
             }
         }
 
@@ -97,6 +100,7 @@ public class Planner implements IPlanner {
                 currentGames = filterSingle(condition, filteredStream)
                         .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
+                currentGames = new LinkedHashSet<>();
                 break;
             }
         }
@@ -130,7 +134,8 @@ public class Planner implements IPlanner {
                         .collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
-                return currentGames.stream();
+                currentGames = new LinkedHashSet<>();
+                return Stream.empty();
             }
         }
 
@@ -143,6 +148,7 @@ public class Planner implements IPlanner {
                 currentGames = filterSingle(condition, filteredStream)
                         .collect(Collectors.toCollection(LinkedHashSet::new));
             } catch (IllegalArgumentException e) {
+                currentGames = new LinkedHashSet<>();
                 break;
             }
         }
