@@ -154,6 +154,10 @@ class GameListTest {
             list1.addToList("GoGoTiger", games.stream());
         });
 
+        assertThrows(IllegalArgumentException.class, () -> {
+            list1.addToList("appletree", games.stream());
+        });
+
         IGameList list2 = new GameList();
         list2.addToList("Go Fish", games.stream());
         list2.addToList("Tucano", games.stream());
@@ -235,6 +239,10 @@ class GameListTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             gameList.removeFromList("goTiger");
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            gameList.removeFromList("golami");
         });
     }
 
