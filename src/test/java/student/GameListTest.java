@@ -80,7 +80,6 @@ class GameListTest {
             assertEquals("Go Fish", reader.readLine());
             assertEquals("golang", reader.readLine());
             assertEquals("GoRami", reader.readLine());
-
             assertNull(reader.readLine());
             reader.close();
         } catch (IOException e) {
