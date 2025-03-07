@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public final class Sorting {
 
     /**
-     * Constructor for Sorting
+     * Constructor for Sorting.
      */
     private Sorting() {
 

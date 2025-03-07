@@ -82,7 +82,8 @@ public class Planner implements IPlanner {
 
         if (!filter.contains(",")) {
             try {
-                Stream<BoardGame> filteredGames = Sorting.sortOn(filterSingle(filter, currentGames.stream()), sortOn, true);
+                Stream<BoardGame> filteredGames = Sorting.sortOn(filterSingle(filter,
+                        currentGames.stream()), sortOn, true);
                 currentGames = filteredGames.collect(Collectors.toCollection(LinkedHashSet::new));
                 return currentGames.stream();
             } catch (IllegalArgumentException e) {
